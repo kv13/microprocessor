@@ -1,0 +1,40 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.42</VERSION>
+ <DEVICE>AT90S8515</DEVICE>
+ <WORKING_DIR>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\8515def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <AEM1><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>2</LINE></AEM1>
+  <AEM2><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>3</LINE></AEM2>
+  <swapaem><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>58</LINE></swapaem>
+  <calculations><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>76</LINE></calculations>
+  <part2><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>101</LINE></part2>
+  <loop><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>110</LINE></loop>
+  <sw0><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>126</LINE></sw0>
+  <sw1><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>152</LINE></sw1>
+  <sw2><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>180</LINE></sw2>
+  <nearsw3><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>178</LINE></nearsw3>
+  <nearsw7><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>179</LINE></nearsw7>
+  <L1><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>139</LINE></L1>
+  <L2><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>164</LINE></L2>
+  <sw3><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>204</LINE></sw3>
+  <sw7><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>228</LINE></sw7>
+  <L3><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>192</LINE></L3>
+  <L4><FILE>C:\Users\kostas\Desktop\AVRPROJECTS\exercise1\exercise1.asm</FILE><LINE>216</LINE></L4>
+ </LABELS>
+</ASSEMBLER_INFO>
