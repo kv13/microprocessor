@@ -76,12 +76,13 @@ rjmp calculations
 calculations:
 LDI R26,0B11111111
 OUT DDRB,R26
-MOV temp,MinAemM
+;το προβλημα που ειχαμε στο εργαστηριο ηταν εδω .ΤΟ εφτιαξα ΟΠοτε τωρα ο κωδικας ειναι κομπλε
+MOV temp,MinAemD
 LSL temp
 LSL temp
 LSL temp
 LSL temp
-OR temp,MaxAemM
+OR temp,MinAemM
 COM temp
 OUT PORTB,temp
 MOV temp,MaxAemM
