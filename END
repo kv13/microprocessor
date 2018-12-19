@@ -1,0 +1,350 @@
+.include "m16def.inc"
+.def command=R5
+.def clock1=R22
+.def stage=R1
+rjmp RESET
+RESET:
+	clr stage
+	clr clock1
+	clr command
+	ldi r16,0b11111111
+    out DDRB,r16
+    out PORTB,r16
+    ldi r16,0
+    out DDRD,r16
+
+
+
+
+
+
+;Initialize stack pointer because we will use some functions\
+ldi r16,low(RAMEND)
+out SPL,r16
+ldi r16,high(RAMEND)
+out SPH,r16
+
+
+
+
+START:
+	in r17,pind
+	cpi r17,0b10111111
+	brne START
+	rcall RELEASEBUTTON
+	rcall CLOCKFOR10SECRESET
+	ldi r16,0b0000000
+	cp command,r16
+	brne START_3
+START_1:
+	in r17,pind
+	ori r17,0b11000011
+	cpi r17,0b11111111
+	brne START_2
+	rcall CLOCK10SEC
+	rjmp START_1
+START_2:
+	in r18,pind
+	rcall RELEASEBUTTON
+	ldi r16,0b00000001
+	mov stage,r16
+	mov command,r18
+	rjmp START
+START_3:
+	in r17,pind 
+	ori r17,0b11111101
+	cpi r17,0b11111111
+	brne SW1PRESSED
+	rcall CLOCK10SEC
+	rjmp START_3
+START_3MAIN:
+	rjmp MAINFUNC
+
+
+
+SW1PRESSED:
+	ldi r16,0b11111101
+	out portb,r16
+	rcall DELAY1SEC
+	ldi r16,0b11111111
+	out portb,r16
+	rcall DELAY1SEC
+	in r17,pind
+	cpi r17,0b11111111
+	breq SW1PRESSED
+	in r18,pind
+	rcall RELEASEBUTTON
+	ori r18,0b11111101
+	cpi r18,0b11111111
+	brne MAINFUNC
+	rjmp SW1PRESSED
+	DOOROPEN:
+	ldi r16,0b11111110
+	out portb,r16
+	rcall DELAY1SEC
+	ldi r16,0b11111111
+	out portb,r16
+	rcall DELAY1SEC
+	in r17,pind
+	cpi r17,0b11111111
+	breq DOOROPEN
+	in r18,pind
+	rcall RELEASEBUTTON
+	ori r18,0b11111110
+	cpi r18,0b11111110
+	breq MAINFUNC
+	rjmp DOOROPEN
+WATER:
+	ldi r16,0b10111101
+	out portb,r16
+	rcall DELAY1SEC
+	ldi r16,0b10111111
+	out portb,r16
+	rcall DELAY1SEC
+	in r17,pind
+	cpi r17,0b11111111
+	breq WATER
+	in r18,pind
+	rcall RELEASEBUTTON
+	ori r18,0b01111111
+	cpi r18,0b01111111
+	breq MAINFUNC
+	rjmp WATER
+
+
+
+
+MAINFUNC:
+	rcall CLOCKFOR2SECRESET
+MAINFUNCINTRO:
+	in r17,pind
+	cpi r17,0b11111111
+	brne BUTTONPRESSED
+	rcall CLOCKFOR2SEC
+	rjmp MAINFUNCINTRO
+BUTTONPRESSED:
+	in R21,pind
+	rcall RELEASEBUTTON
+	mov R3,R21
+	cpi R21,0b11111110
+	breq DOOROPEN
+	cpi R21,0b11111101
+	breq SW1PRESSED
+	cpi R21,0b01111111
+	breq WATER
+	rjmp  MAINFUNC
+WORKING:
+	mov r16,stage
+	cpi r16,0b00000001
+	breq PROPLISIMO
+	cpi r16,0b00000010
+	breq PLISIMO
+	cpi r16,0b00000011
+	breq STRAGISMA
+PROPLISIMO:
+	ldi r16,0b00000010
+	mov stage,r16
+    mov r16,command
+	ori r16,0b11111011
+	cpi r16,0b11111011
+	brne PLISIMO
+	ldi r17,0b11111011
+	out portb,r17
+	rcall DELAY4SEC
+	ldi r17,0b11111111
+	out portb,r17
+	rjmp MAINFUNC
+PLISIMO:
+	ldi r16,0b00000011
+	mov stage,r16
+	mov r16,command
+	ori r16,0b11100111
+	com r16
+	cpi r16,0b00000000
+	breq PLISIMO4
+	cpi r16,0b00001000
+	breq PLISIMO8
+	cpi r16,0b00010000
+	breq PLISIMO12
+	cpi r16,0b00011000
+	breq PLISIMO18
+PLISIMOEND:
+	rjmp MAINFUNC
+PLISIMO4:
+	ldi r16,0b00000010
+	out portb,r16
+	rcall DELAY4SEC
+	ldi r16,0b00000000
+	out portb,r16
+	rjmp PLISIMOEND
+PLISIMO8:
+	ldi r16,0b00000010
+	out portb,r16
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	ldi r16,0b00000000
+	out portb,r16
+	rjmp PLISIMOEND
+PLISIMO12:
+	ldi r16,0b00000010
+	out portb,r16
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	ldi r16,0b00000000
+	out portb,r16
+	rjmp PLISIMOEND
+PLISIMO18:
+	ldi r16,0b00000010
+	out portb,r16
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	rcall DELAY4SEC
+	ldi r16,0b00000000
+	out portb,r16
+	rjmp PLISIMOEND
+
+
+STRAGISMA:
+	ldi r16,0b00000100
+	mov stage,r16
+	mov r16,command
+	ori r16,0b11011111
+	com r16
+	cpi r16,0b00000000
+	breq YESSTRAGISMA
+	cpi r16,0b00100000
+	breq NOSTRAGISMA
+NOSTRAGISMA:
+	ldi r16,0b00000011
+	out portb,r16
+	rcall DELAY1SEC
+	rjmp FINISH
+YESSTRAGISMA:
+	ldi r16,0b00000011
+	out portb,r16
+	rcall DELAY1SEC
+	ldi r16,0b00000100
+	out portb,r16
+	rcall DELAY2SEC
+	rjmp FINISH
+
+
+FINISH:
+	ldi r16,0b01111111
+	out portb,r16
+    ldi  r18, 102
+    ldi  r19, 118
+    ldi  r20, 194
+L8: dec  r20
+    brne L8
+    dec  r19
+    brne L8
+    dec  r18
+    brne L8
+	ldi r16,0b11111111
+LOOP8:
+	out portb,r16
+	rjmp LOOP8
+
+START_3MAINCLOSE:
+	rjmp START_3MAIN
+
+
+
+
+
+DELAY1SEC:
+    ldi  r18, 21
+    ldi  r19, 75
+    ldi  r20, 191
+L1: dec  r20
+    brne L1
+    dec  r19
+    brne L1
+    dec  r18
+    brne L1
+    ret
+
+
+
+CLOCKFOR2SECRESET:
+	ldi XH,HIGH(0xFFFF)
+	ldi XL,LOW(0xFFFF)
+	ldi clock1 ,0b00000000
+	ret
+
+
+CLOCKFOR2SEC:
+	sbiw X,0x01
+	brne BACK1
+	inc clock1
+	cpi clock1,0x10;2sec
+	breq PASS2SEC
+BACK1:
+	ret
+PASS2SEC:
+	rjmp WORKING
+
+CLOCKFOR10SECRESET:
+	ldi XH,HIGH(0xFFFF)
+	ldi XL,LOW(0xFFFF)
+	ldi clock1,0b0000000
+	ret
+
+
+CLOCK10SEC:
+	sbiw X,0x01
+	brne back
+	inc clock1
+	cpi clock1,0x26
+	breq PASS10SEC
+	back:
+		ret
+
+PASS10SEC:
+	mov r16,stage
+	cpi r16,0b00000000
+	brne START_3MAINCLOSE
+	ldi r16,0
+	LOOP:
+	out PORTB,R16
+	rjmp LOOP
+
+DELAY2SEC:
+    ldi  r18, 41
+    ldi  r19, 150
+    ldi  r20, 128
+L3: dec  r20
+    brne L3
+    dec  r19
+    brne L3
+    dec  r18
+    brne L3
+	ret
+DELAY4SEC:
+    ldi  r18, 82
+    ldi  r19, 43
+    ldi  r20, 0
+L4: dec  r20
+    brne L4
+    dec  r19
+    brne L4
+    dec  r18
+    brne L4
+    lpm
+    nop
+	ret
+
+RELEASEBUTTON:
+	in R17,pind
+	cpi R17,0b11111111
+	brne RELEASEBUTTON
+	ldi R24, 104
+	ldi R25, 229
+L2: dec R25
+	brne L2
+	dec R24
+	brne L2
+	ret
