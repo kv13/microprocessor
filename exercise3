@@ -1,8 +1,10 @@
 .include "m16def.inc"
+;orizoume kapoies metavlites oi opoies xrisimopoiounte suxna se olo to programa
 .def command=R5
 .def clock1=R22
 .def stage=R1
 rjmp RESET
+;prin ksekinisei to programma veveonomaste oti oles oi metavlites arxikopoihthikan
 RESET:
 	clr stage
 	clr clock1
@@ -19,7 +21,7 @@ RESET:
 
 
 
-;Initialize stack pointer because we will use some functions\
+;Initialize stack pointer because we will use some functions
 ldi r16,low(RAMEND)
 out SPL,r16
 ldi r16,high(RAMEND)
@@ -27,7 +29,7 @@ out SPH,r16
 
 
 
-
+;stin arxi perimenoume na patithei to sw6
 START:
 	in r17,pind
 	cpi r17,0b10111111
@@ -37,6 +39,10 @@ START:
 	ldi r16,0b0000000
 	cp command,r16
 	brne START_3
+;afou patithei to sw6 energopoieite to roloi gia 10sec .An perasoun ta 10sec tote ksanaarxizei apo tin arxi to programa
+;Se auta ta 10sec o xristis prepei na epileksei ti xrisi thelei na kanei me ta buttons sw5-sw2
+;to stage auksanei 1 giati perasame sto epomeno stadio plusimatatos
+;kai sto command apothikeuw tin entoli plisis
 START_1:
 	in r17,pind
 	ori r17,0b11000011
@@ -51,6 +57,8 @@ START_2:
 	mov stage,r16
 	mov command,r18
 	rjmp START
+;sti sunexeia perimenw na patithei gia 10 sec  to sw1 alliws ksekinaei i plusi
+;episis uparxoun 3 labels pou elegxoun ti ginete se periptosi pou den uparxei nero an patithei to sw1 h an anoiksei h porta
 START_3:
 	in r17,pind 
 	ori r17,0b11111101
@@ -114,17 +122,21 @@ WATER:
 
 
 
-
+;edw ksekinaei to programa .Anoigokleinoume ta lampakia me diarkia 2 sec
 MAINFUNC:
-	ldi r16,0b11111111
+	ldi r16,0b00000000
 	out portb,r16
 	rcall CLOCKFOR2SECRESET
+	ldi r16,0b11111111
+	out portb,r16
 MAINFUNCINTRO:
 	in r17,pind
 	cpi r17,0b11111111
 	brne BUTTONPRESSED
 	rcall CLOCKFOR2SEC
 	rjmp MAINFUNCINTRO
+;ginete elegxos gia to an patithike kapoio koumpi .An nai tote pame sto antistoixo label pou elegxoyme ti ginete
+;alliws ksekinaei kanonika h leitourgia tou plusimatos analoga me to ti leitourgies evale o xristis
 BUTTONPRESSED:
 	in R21,pind
 	rcall RELEASEBUTTON
